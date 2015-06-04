@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mikeycaine</groupId>
 	<artifactId>jobserve</artifactId>
@@ -13,20 +13,20 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.2.3.RELEASE</version>
 	</parent>
-	
+
 	<scm>
-    <connection>scm:git:git@github.com:mcaine/JobserveClient.git</connection>
-    <url>scm:git:git@github.com:mcaine/JobserveClient.git</url>
-    <developerConnection>scm:git:git@github.com:mcaine/JobserveClient.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
+		<connection>scm:git:git@github.com:mcaine/JobserveClient.git</connection>
+		<url>scm:git:git@github.com:mcaine/JobserveClient.git</url>
+		<developerConnection>scm:git:git@github.com:mcaine/JobserveClient.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
 
 	<dependencies>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
+			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -45,12 +45,19 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 		</dependency>
-		
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.3.6</version>
-    </dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.1.6.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.6</version>
+		</dependency>
 
 	</dependencies>
 

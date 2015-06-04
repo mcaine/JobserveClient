@@ -57,7 +57,6 @@ public class JobserveAPIService implements JobserveAPI {
 	private HttpHeaders authorizationHeaders() {
 		HttpHeaders headers = new HttpHeaders();
 		addHeaders(headers);
-
 		return headers;
 	}
 	
@@ -69,6 +68,7 @@ public class JobserveAPIService implements JobserveAPI {
 
 	@SuppressWarnings("unchecked")
   private <T> T doGet(String url, Class<?> resultClass) {
+		System.out.println("doGet() for " + BASE_URL + url);
 		return (T) restTemplate.exchange(BASE_URL + url, HttpMethod.GET, new HttpEntity<Object>(authorizationHeaders()),
 		    resultClass).getBody();
 	}
@@ -76,7 +76,6 @@ public class JobserveAPIService implements JobserveAPI {
 	@Override
 	@Async
 	public Future<CountryCollection> getAllCountries() throws InterruptedException {
-		System.out.println("getAllCountries()");
 		CountryCollection results = doGet("Countries", CountryCollection.class);
 		return new AsyncResult<CountryCollection>(results);
 	}
@@ -84,7 +83,6 @@ public class JobserveAPIService implements JobserveAPI {
 	@Override
 	@Async
 	public Future<IndustryCollection> getAllIndustries() throws InterruptedException {
-		System.out.println("getAllIndustries()");
 		IndustryCollection results = doGet("Industries", IndustryCollection.class);
 		return new AsyncResult<IndustryCollection>(results);
 	}
@@ -128,7 +126,7 @@ public class JobserveAPIService implements JobserveAPI {
 	@Async
   public Future<GeoLocationMatch> getLocationMatch(double latitude, double longitude, double maxDistance)
       throws InterruptedException {
-		GeoLocationMatch results = doGet(String.format("Locations/%f/%f?maxDistance=%f", latitude, longitude, maxDistance), GeoLocationMatch.class);
+		GeoLocationMatch results = doGet(String.format("locations/%.5f/%.5f?maxDistance=%f", latitude, longitude, maxDistance), GeoLocationMatch.class);
 		return new AsyncResult<GeoLocationMatch>(results);
   }
 
