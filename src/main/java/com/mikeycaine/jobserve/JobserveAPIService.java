@@ -12,6 +12,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -35,24 +36,11 @@ public class JobserveAPIService implements JobserveAPI {
 	@Value("${jobserve.api.key}")
 	private String apiKey;
 	
-	//@Autowired
-	private  RestTemplate restTemplate;
+	@Autowired
+	private RestTemplate restTemplate;
 	
-	private HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-		
-	{
-		 RestTemplate theRestTemplate = new RestTemplate();
-		 
-		 Jaxb2RootElementHttpMessageConverter converter2 = new Jaxb2RootElementHttpMessageConverter();
-		 converter2.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_XML));
-		 
-		 List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-		 messageConverters.add(converter2);
-		 
-		 theRestTemplate.setMessageConverters(messageConverters);
-		 
-		 restTemplate = theRestTemplate;
-}
+	@Autowired
+	private HttpComponentsClientHttpRequestFactory requestFactory;
 	
 	private HttpHeaders authorizationHeaders() {
 		HttpHeaders headers = new HttpHeaders();
