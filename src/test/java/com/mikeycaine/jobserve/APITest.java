@@ -1,5 +1,7 @@
 package com.mikeycaine.jobserve;
 
+import static org.junit.Assert.*;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -123,5 +125,59 @@ public class APITest {
 		Assert.assertTrue(jobTypeNames.contains("Any"));
 		Assert.assertTrue(jobTypeNames.contains("Permanent"));
 		Assert.assertTrue(jobTypeNames.contains("Contract"));
+	}
+	
+	@Test
+	public void testJobSearchDefaults() throws InterruptedException, ExecutionException {
+		Future<JobSearch> jobSearch = jobserve.getJobSearchDefaults();
+		System.out.println("Job Search Defaults Max Distance: " + jobSearch.get().getMaxDistance().getValue());
+		Assert.assertEquals("25.0", jobSearch.get().getMaxDistance().getValue().toString());
+	}
+	
+	@Test
+	public void testJobSearchPOST() throws InterruptedException, ExecutionException {
+		Future<JobSearch> defaultsFuture = jobserve.getJobSearchDefaults();
+		JobSearch defaults = defaultsFuture.get();
+		//System.out.println("Default Max distance (should be 25): " + defaults.getMaxDistance().getValue());
+		
+		defaults.setAccountGroupIDs(null);
+		defaults.setAccountIDs(null);
+		
+		IDCollection industries = new IDCollection();
+		industries.getID().add("IT");
+		defaults.setIndustries(new ObjectFactory().createIDCollection(industries));
+		
+		defaults.setSkills(new ObjectFactory().createJobSearchSkills("perl"));
+		
+		Future<JobSearchResults> results = jobserve.jobSearchPOST(defaults);
+		JobSearchResults jobSearchResults = results.get();
+		System.out.println("Found " + jobSearchResults.getJobCount() + " jobs");
+		System.out.println("Page " + jobSearchResults.getPageNo() + " of " + jobSearchResults.getPageCount() + " pages");
+		System.out.println("Page size is " + jobSearchResults.getPageSize());
+		
+		IDCollection jobIDCollection = jobSearchResults.getJobIDs().getValue();
+		for (String id : jobIDCollection.getID()) {
+			System.out.println("Job ID " + id);
+		}
+		
+		JobCollection jobCollection = jobSearchResults.getJobs().getValue();
+		for (Job job : jobCollection.getJob()) {
+			System.out.println();
+			System.out.println(job.getShortDescription().getValue());
+			System.out.println(job.getRecruiterName().getValue());
+		}
+		
+		// Usually we get ~300 or so
+		Assert.assertTrue(jobSearchResults.getJobCount() > 10);
+	}
+	
+	@Test
+	public void testJobSearchGET() throws InterruptedException, ExecutionException {
+		fail("Not implemented");
+	}
+	
+	@Test
+	public void testSingleJobDetails() throws InterruptedException, ExecutionException {
+		fail("Not implemented");
 	}
 }
