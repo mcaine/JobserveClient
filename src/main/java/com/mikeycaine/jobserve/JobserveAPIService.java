@@ -2,9 +2,7 @@ package com.mikeycaine.jobserve;
 
 import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.Future;
 
 import javax.xml.bind.JAXBContext;
@@ -19,10 +17,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -40,7 +36,7 @@ public class JobserveAPIService implements JobserveAPI {
 	private RestTemplate restTemplate;
 	
 	@Autowired
-	private HttpComponentsClientHttpRequestFactory requestFactory;
+	private ClientHttpRequestFactory requestFactory;
 	
 	private HttpHeaders authorizationHeaders() {
 		HttpHeaders headers = new HttpHeaders();
